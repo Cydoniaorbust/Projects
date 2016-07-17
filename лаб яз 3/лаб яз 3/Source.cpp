@@ -6,7 +6,7 @@
 using namespace std;
 struct str
 {
-	string region;
+	char region[20];
 	int floor, rooms, rent;
 }*k;
 int n; // size of mas
@@ -22,13 +22,19 @@ void out()
 {
 	int w = 8;
 	fin.open("config.cfg"); fin >> w; fin.close();
+	for (int i = 0;i < w*4+7;i++)
+		cout << "=";
 	for (int i = 0; i < n; i++)
-		cout 
+		cout << endl
 		<< "||" <<setw(w) << k[i].region 
 		<< "|" << setw(w) << k[i].floor 
 		<< "|" << setw(w) << k[i].rooms 
 		<< "|" << setw(w) << k[i].rent 
-		<< "||" << endl;
+		<< "||";
+	cout << endl;
+	for (int i = 0;i < w * 4 + 7;i++)
+		cout << "=";
+	cout << endl;
 }
 string get_name()
 {
@@ -40,14 +46,29 @@ string get_name()
 	} while (p > s.length());
 	return s.substr(p + 1, string::npos);
 }
+void filesize()
+{
+	char *c = new char[1024];
+	int i = 0;
+	fin.open(s);
+	while (!fin.eof())
+	{
+		fin.getline(c, 1024, '\n');
+		i++;
+	}
+	n = i - 1;
+	fin.close();
+	delete c;
+}
 void save()
 {
-	if (get_name() == "txt") {
+	string f = get_name();
+	if (f == "txt") {
 		fout.open(s);
 		for (int i = 0;i < n;i++)
 			fout << k[i].region << " " << k[i].floor << " " << k[i].rooms << " " << k[i].rent << endl;
 	}
-	else if (get_name() == "bin") {
+	else if (f == "bin") {
 		fout.open(s, ios::binary);
 		fout.write((char*)&n, sizeof(n));
 		for (int i = 0;i < n;i++)
@@ -63,14 +84,15 @@ void save()
 }
 void load() 
 {
-	if (get_name() == "txt") {
+	string f = get_name();
+	if (f == "txt") {
+		filesize();
+		k = new str[n];
 		fin.open(s);
-		while (!EOF)
-
 		for (int i = 0;i < n;i++)
 			fin >> k[i].region >> k[i].floor >> k[i].rooms >> k[i].rent;
 	}
-	else if (get_name() == "bin") {
+	else if (f == "bin") {
 		fin.open(s, ios::binary);
 		fin.read((char*)&n, sizeof(n));
 		k = new str[n];
@@ -121,6 +143,6 @@ int main(int argc, char *argv[])
 			break;
 		}
 	} while (choice != 7);
-	delete[]k;
+	delete []k;
 	return 0;
 }
