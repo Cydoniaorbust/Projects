@@ -64,11 +64,10 @@ namespace Node_nspace {
 			else {
 				temp = l->GetNode(target);
 				if (temp) return temp;
-				else
-					if (r)
-						if (r->GetID() == target) return copy_unique(r);
-						else return r->GetNode(target);
-					else return temp;
+				else if (r)
+					if (r->GetID() == target) return copy_unique(r);
+					else return r->GetNode(target);
+				else return temp;
 			}
 		else return nullptr;
 	}
@@ -86,13 +85,10 @@ namespace Node_nspace {
 				double value_r = r->Evaluate(x);
 				if (value_r) {
 					if (GetRandInfo() == "+") return value_l + value_r;
-					else 
-						if (GetRandInfo() == "-") return value_l - value_r;
-						else 
-							if (GetRandInfo() == "*") return value_l * value_r;
-							else 
-								if (GetRandInfo() == "/") return value_l / value_r;
-								else return 0;
+					else if (GetRandInfo() == "-") return value_l - value_r;
+					else if (GetRandInfo() == "*") return value_l * value_r;
+					else if (GetRandInfo() == "/") return value_l / value_r;
+					else return 0;
 				}
 				else {
 					if (GetRandInfo() == "*") return 0;
@@ -102,9 +98,8 @@ namespace Node_nspace {
 			else {
 				//"sin", "cos", "sqr", "sqrt", "ln", "exp"
 				if (GetRandInfo() == "sin") return sin(value_l);
-				else 
-					if (GetRandInfo() == "cos") return cos(value_l);
-					else return 0;
+				else if (GetRandInfo() == "cos") return cos(value_l);
+				else return 0;
 			}
 		}
 		else {
